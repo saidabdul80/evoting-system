@@ -38,7 +38,11 @@ Route::post('/register', [RegisterController::class, 'create'])->name('register'
 Route::get('/register', [RegisterController::class,'index']);
 Route::middleware(['authlogin'])->group(function(){
 
+	Route::get('/voters_inputs', [VotingController::class, 'votersInputs']);
 	Route::get('/all_aspirants_vote', [VotingController::class, 'allAspirantsVotes']);
+	Route::get('/results',function(){
+		return view('results');
+	});
 	Route::get('/voting', [VotingController::class, 'index'])->name('voting');
 	Route::get('/dashboard', [VotingController::class, 'dashboard'])->name('dashboard');
 

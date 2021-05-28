@@ -31,6 +31,7 @@ Vue.prototype.$eventBus = new Vue();
 
 Vue.component('voting-stage', require('./components/voting.vue').default);
 Vue.component('dashboard-stage', require('./components/dashboard.vue').default);
+Vue.component('results-stage', require('./components/result.vue').default);
 
  
 /**

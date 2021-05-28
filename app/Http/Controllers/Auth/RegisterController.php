@@ -76,13 +76,13 @@ class RegisterController extends Controller
             if ($request->has('profile_image')) {
                  $image = $request->profile_image;
                  $folder = '/uploads/images/';                 
-                $name =$request->get('name').'_'.$request->get('lastname'). '_'.time().'.'.$image->getClientOriginalExtension();
+                $name =$request->get('fname').'_'.$request->get('lastname'). '_'.time().'.'.$image->getClientOriginalExtension();
                 // Make a file path where image will be stored [ folder path + file name + file extension]
                 $filePath = $folder.$name;  
                 $image->move(public_path('/uploads/images'), $name);
                  // Upload image                
                 Aspirant::create([
-                    'fname'   => $request->get('name'),
+                    'fname'   => $request->get('fname'),
                     'lname'   => $request->get('lastname'),
                     'post_id' => $request->get('posts'),
                     'gender'  => $request->get('gender'),

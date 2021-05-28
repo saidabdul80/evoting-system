@@ -81,6 +81,9 @@
                                     <a class="dropdown-item" href="\voting" >
                                         Voting
                                     </a>
+                                    <a class="dropdown-item" href="\results" >
+                                        Results
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -101,7 +104,7 @@
         <main class="py-4">
             @yield('content')
         </main>
-        <div style="position: absolute;bottom: 0px; width: 100%;padding: 20px; border-top:1px solid #eee; color:#666; font-weight: lighter;font-size: 0.9; text-align: center;">
+        <div class="footer">
             (c)2021 Develop by MSUIT visit www.msuit.com.ng
         </div>
     </div>

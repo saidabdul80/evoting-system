@@ -11,4 +11,10 @@ class Voter extends Model
     protected $fillable = [
       '*'
     ];
+
+
+    public function votings()
+    {
+        return $this->hasMany(Voting::class,'voters_id','voter_id');        
+    }
 }

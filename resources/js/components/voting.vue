@@ -1,9 +1,9 @@
 <template>
     <div class="container-fluid">
         <div class="row" v-if="!loading">
-            <div class="col-md-3 col-sm-12 p-0">
+            <div class="col-md-3 col-sm-12 p-0" style="height: 78vh; overflow-y: scroll;">
                 <ul class="p-0 leftBar">
-                    <li v-for="post in aspirants" @click="LoadAspirant(post,$event)">
+                    <li v-for="post in aspirants" v-show="post.aspirants.length >0" @click="LoadAspirant(post,$event)">
                         <div>{{post.name}}</div> <i class="fa fa-chevron-right"></i>
                     </li>
                     <li @click="Submit">
@@ -17,20 +17,22 @@
                     <div class="w-100 d-flexi covergeneral">
                         <span>
                             <br>
-                            <h1 class="text-secondary text-center animate__backInDown">Select Position of Your Aspirant and Click Vote One After the other. </h1>
+                            <h3 class="text-secondary text-center" data-aos="fade-left"                     
+                     :data-aos-offset="200"
+                     :data-aos-duration="200">Select Position of Your Aspirant and Click Vote One After the other. </h3>
                             <br><br>
-                            <h2 class="text-secondary text-center text-warning">Then Click Submit to Process Your Votes</h2>                            
+                            <h4 class="text-secondary text-center text-warning">Then Click Submit to Process Your Votes</h4>                            
                         </span>
-                        <img src="/Vote.png" style="position: relative;right: 0;">
+                        <img src="/Vote.png" style="position: relative;right: 0;width: 50%;">
                     </div>
 
-                <div v-for="post in aspirants" :id="'cover_'+genClass(post.name)" class="covergeneral d-nonei">
+                <div v-for="post in aspirants" :id="'cover_'+genClass(post.abbr)" class="covergeneral d-nonei">
                     <center>
-                        <div v-for="aspirant in post.aspirants" :class="genClass(post.name)+ ' mcard'">
-                            <img src="/Vote.png" class="mimg">
+                        <div v-for="aspirant in post.aspirants" :class="genClass(post.abbr)+' mcard'">
+                            <img :src="aspirant.image" class="mimg">
                             <div class="bg-info mbtn"  >
                                 <h5 class="text-center text-white text-upper">{{aspirant.fname+'  '+aspirant.lname}}</h5>
-                                <button class="shadow-lg bg-white py-2 px-4 btn btn-white " @click="selectCandidate(genClass(post.name),aspirant.id, $event.target)">Vote</button>
+                                <button class="shadow-lg bg-white py-2 px-4 btn btn-white " @click="selectCandidate(genClass(post.abbr),aspirant.id, $event.target)">Vote</button>
                             </div>
                         </div>
                     </center>
@@ -63,14 +65,14 @@
             },
             genClass(name){
                 var name1 = name.split(' ');
-                return name1[0];
+                return name1[0].replace('.','');
             },
             LoadAspirant(obj,e){
                 e = e.currentTarget;
                 this.positionClicked = obj.name;
               
                 $('.covergeneral').hide();
-                $('#cover_'+this.genClass(obj.name)).css({'display':'block'});   
+                $('#cover_'+this.genClass(obj.abbr)).css({'display':'block'});   
                 $('.leftBar').find('li').removeClass('bg-selected');
                 $(e).addClass('bg-selected');
             },
@@ -360,6 +362,7 @@
 
             $(document).ready(function(){
                 AOS.init(); 
+
             });
         }
     }
@@ -414,7 +417,9 @@
         height: 260px; width:200px;padding: 0px;float: left;margin:10px;
     }
     .mimg{
-        height: 200px;width: 100%; box-shadow: 1px -1px 8px #ccc; border-radius: 7px 7px 0px 0px;        
+        height: 200px;
+        width: 100%;
+        box-shadow: 1px -1px 8px #ccc; border-radius: 7px 7px 0px 0px;        
     }
     .mbtn{
         width: 100%;height: 60px;

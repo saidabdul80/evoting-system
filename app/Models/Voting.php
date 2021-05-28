@@ -16,4 +16,9 @@ class Voting extends Model
     {
         return $this->belongsTo(Aspirant::class,'aspirant_id');
     }
+
+    public function voters()
+    {
+        return $this->belongsTo(Voter::class,'voter_id');
+    }
 }

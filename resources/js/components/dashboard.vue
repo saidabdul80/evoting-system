@@ -1,19 +1,42 @@
 <template>
-	<div class="gridScale">
-		<div v-for="(post,index) in allaspirants"  >			
-			<ul class="scroller " v-for="aspirant in post" >
-				<li class="position-relative " data-aos="fade-left"
-				     data-aos-anchor="#example-anchor"
-				     :data-aos-offset="index*200"
-				     :data-aos-duration="index*200" >
-					<div class="position-absolute">
-						<div class="mt-3">{{aspirant.total}}</div>
-						<span class="mini-pos">{{aspirant.post_abbr}}</span>
-					</div>
-					<img :src="aspirant.image" width="100%">
-					<span class="text-upper">{{aspirant.fname}} {{aspirant.lname}}</span>
-				</li>
-			</ul>
+	<div>		
+		<div>
+			<button class="btn btn-primary" @click="todup=false">show distinct</button>
+			<button class="btn btn-danger" @click="todup=true">show duplicates</button>
+		</div>
+		<div class="gridScale" v-show="todup">
+			<div v-for="(post,index) in allaspirants"  >			
+				<ul class="scroller " v-for="aspirant in post" >
+					<li class="position-relative " data-aos="fade-left"
+					     data-aos-anchor="#example-anchor"
+					     :data-aos-offset="index*200"
+					     :data-aos-duration="index*200" >
+						<div class="position-absolute">
+							<div class="mt-3">{{aspirant.total}}</div>
+							<span class="mini-pos">{{aspirant.post_abbr}}</span>
+						</div>
+						<img :src="aspirant.image" width="100%">
+						<span class="text-upper">{{aspirant.fname}} {{aspirant.lname}}</span>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="gridScale bg-dark" v-show="!todup">
+			<div v-for="(post,index) in allaspirantsX"  >			
+				<ul class="scroller " v-for="aspirant in post" >
+					<li class="position-relative " data-aos="fade-left"
+					     data-aos-anchor="#example-anchor"
+					     :data-aos-offset="index*200"
+					     :data-aos-duration="index*200" >
+						<div class="position-absolute">
+							<div class="mt-3">{{aspirant.total}}</div>
+							<span class="mini-pos">{{aspirant.post_abbr}}</span>
+						</div>
+						<img :src="aspirant.image" width="100%">
+						<span class="text-upper">{{aspirant.fname}} {{aspirant.lname}}</span>
+					</li>
+				</ul>
+			</div>
 		</div>
 	</div>
 </template>
@@ -22,6 +45,8 @@
 		data(){
 			return {
 				allaspirants:[],
+				allaspirantsX:[],
+				todup: true,
 			}
 		},
 		methods:{		
@@ -46,7 +71,9 @@
 			this.show_loader();
 			var $this = this;
             $.get("/all_aspirants_vote", function(result){
-                $this.allaspirants = result;
+                $this.allaspirants = result.duplicate;
+		        $this.allaspirantsX = result.distinct;	
+
 				$this.hide_loader();
 				$this.forGrid(result);
             });
@@ -57,7 +84,8 @@
 			$(document).ready(function(){
 				setInterval(function(){
 					$.get("/all_aspirants_vote", function(result){
-		                $this.allaspirants = result;	
+		                $this.allaspirants = result.duplicate;	
+		                $this.allaspirantsX = result.distinct;	
 		                var rcount = result.length;
 		               	$this.forGrid(result);
 		            });					
@@ -138,7 +166,7 @@
         border-radius: 0px 0px 5px 5px;  
         height: 150px;  	     	
     }
-    .position-absolute:after{
+   /* .position-absolute:after{
     	content:'Votes Count:';
     	display: block;
     	position: absolute;
@@ -150,7 +178,7 @@
     	white-space: nowrap;    
     	padding-left: 4px;
     	z-index: 1000;
-    }
+    }*/
     .mini-pos{    	
     	display: block;
     	position: absolute;
@@ -175,8 +203,8 @@
     	padding: 10px 20px;
     	display: grid;    	
     	margin: 0 auto;
-    	grid-gap: 5px;    	
-  		grid-template-columns:repeat(auto-fit, minmax(70px, 1fr));
+    	grid-gap: 2px;    	
+  		grid-template-columns:repeat(auto-fit, minmax(100px, 1fr));
     }
     .text-upper{
     	text-transform: uppercase;
@@ -206,7 +234,7 @@
  
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: red; 
+  background: transparent; 
   border-radius: 10px;
 }
 

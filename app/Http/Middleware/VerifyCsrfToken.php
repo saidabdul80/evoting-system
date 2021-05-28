@@ -16,5 +16,6 @@ class VerifyCsrfToken extends Middleware
 		'get_aspirants',
 		'check_eligibility',
 		'submit_elect',
+		'voters_inputs'
     ];
 }
